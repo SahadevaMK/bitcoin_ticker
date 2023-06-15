@@ -15,7 +15,7 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
 
-  late String selectedCurrency = "USD";
+  late String selectedCurrency = "AUD";
 
 
   DropdownButton<String> androidDropDown(){
@@ -26,7 +26,7 @@ class _PriceScreenState extends State<PriceScreen> {
       var newItem = DropdownMenuItem(value: currency,child: Text(currency),);
       dropMenuItem.add(newItem);
     }
-
+    getData();
     return DropdownButton(
       value: selectedCurrency,
       onChanged: (value){
@@ -36,6 +36,7 @@ class _PriceScreenState extends State<PriceScreen> {
       },
       items: dropMenuItem,
     );
+
   }
 
   CupertinoPicker iOSPicker(){
@@ -61,7 +62,7 @@ class _PriceScreenState extends State<PriceScreen> {
   String bitCoinInUsd = '?';
   void getData()async{
     try {
-      double data = await CoinData().getCoinData();
+      double data = await CoinData().getCoinData(selectedCurrency);
       setState(() {
         bitCoinInUsd = data.toStringAsFixed(0);
       });
@@ -97,7 +98,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC =  $bitCoinInUsd',
+                  '1 BTC =  $bitCoinInUsd $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
